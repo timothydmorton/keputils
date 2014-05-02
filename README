@@ -1,0 +1,4 @@
+Basic module for interaction with KOI and Kepler-stellar tables.  
+
+To set up data files, run './getdata.sh' from command line.
+
