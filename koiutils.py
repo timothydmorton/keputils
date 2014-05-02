@@ -1,5 +1,7 @@
+from __future__ import division,print_function
 import numpy as np
 import os,sys,re,os.path
+import kicutils as kicu
 
 import pandas as pd
 
@@ -72,8 +74,22 @@ class KOI_DataFrame(pd.DataFrame):
         except:
             return super(KOI_DataFrame,self).__getitem__(item)
 
-DATA = KOI_DataFrame(pd.read_csv(KOIFILE))
-DATA.index = DATA['kepoi_name']
+KOIFILE = os.path.expanduser('~/.keputils/kois_cumulative.csv')
+H5FILE = os.path.expanduser('~/.keputils/keptables.h5')
+
+def write_hdf(filename=H5FILE,csvfile=KOIFILE):
+    print('loading stellar data from .csv file (should just happen once)')
+    DATA = pd.read_csv(csvfile)
+    DATA.index = DATA.kepid
+    DATA.to_hdf(filename,'cumulative')
+
+
+
+try:
+    DATA = KOI_DataFrame(pd.read_hdf(H5FILE,'cumulative'))
+except:
+    write_hdf()
+    DATA = KOI_DataFrame(pd.read_hdf(H5FILE,'cumulative'))
 
 oldg,oldr,oldi,oldz = (DATA['koi_gmag'].copy(),
                        DATA['koi_rmag'].copy(),
@@ -109,4 +125,5 @@ def KICmag(koi,band):
     mags = KICmags(koi)
     return mags[band]
 
-
+def get_property(koi,*props):
+    return kicu.get_property(DATA[koi]['kepid'],*props)

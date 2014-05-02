@@ -1,4 +1,5 @@
-Basic module for interaction with KOI and Kepler-stellar tables.  
+Basic module for interaction with KOI and Kepler-stellar tables.  Requires pandas.
 
-To set up data files, run './getdata.sh' from command line.
+To set up data files, run './getdata.sh' from command line.  This will create a ~/.keputils folder, into which the current cumulative KOI and keplerstellar tables will be saved.
 
+The first time you import, the .csv files will be read in and the data saved to .h5 files in ~/.keputils.
