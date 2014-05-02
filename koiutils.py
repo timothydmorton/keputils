@@ -1,3 +1,8 @@
+"""
+Module for convenient access to kepler table data.
+
+
+"""
 from __future__ import division,print_function
 import numpy as np
 import os,sys,re,os.path
@@ -8,6 +13,12 @@ import pandas as pd
 KOIFILE = '~/.keputils/kois_cumulative.csv'
 
 def koiname(k, star=False, koinum=False):
+    """Returns KOI name in standard format.
+
+    if star is False, K?????.??; otherwise K?????
+
+    if koinum is True, the returns number rather than string, no K.
+    """
     name = ''
     if type(k) in (type(1),np.int64):
         name = 'K%08.2f' % (k+0.01)
