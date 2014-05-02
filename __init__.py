@@ -1,2 +1,3 @@
-import kicutils
-from koiutils import *
+__all__ = ['koiutils','kicutils']
+
+

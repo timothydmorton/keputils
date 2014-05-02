@@ -10,6 +10,8 @@ import os,os.path
 
 import distributions as dists
 
+import koiutils as ku
+
 STELLARFILE = os.path.expanduser('~/.keputils/keplerstellar.csv')
 H5FILE = os.path.expanduser('~/.keputils/keptables.h5')
 
@@ -26,7 +28,16 @@ except:
     write_hdf()
     DATA = pd.read_hdf(H5FILE,'keplerstellar')
 
-def get_property(kic,*args):
-    return DATA.ix[kic,list(args)]
+def get_property(name,*args):
+    try:
+        if len(args)==1:
+            return DATA.ix[ku.DATA[name]['kepid'],args]
+        else:
+            return DATA.ix[ku.DATA[name]['kepid'],list(args)]            
+    except:
+        if len(args)==1:
+            return DATA.ix[name,args]
+        else:
+            return DATA.ix[name,list(args)]
 
 

@@ -6,7 +6,6 @@ Module for convenient access to kepler table data.
 from __future__ import division,print_function
 import numpy as np
 import os,sys,re,os.path
-import kicutils as kicu
 
 import pandas as pd
 
@@ -136,5 +135,3 @@ def KICmag(koi,band):
     mags = KICmags(koi)
     return mags[band]
 
-def get_property(koi,*props):
-    return kicu.get_property(DATA[koi]['kepid'],*props)
