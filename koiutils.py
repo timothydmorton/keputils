@@ -3,6 +3,8 @@ import os,sys,re,os.path
 
 import pandas as pd
 
+KOIFILE = '~/.keputils/kois_cumulative.csv'
+
 def koiname(k, star=False, koinum=False):
     name = ''
     if type(k) in (type(1),np.int64):
@@ -69,8 +71,6 @@ class KOI_DataFrame(pd.DataFrame):
                     return super(KOI_DataFrame,self).__getitem__(item)
         except:
             return super(KOI_DataFrame,self).__getitem__(item)
-
-KOIFILE = 'kois_cumulative.csv'
 
 DATA = KOI_DataFrame(pd.read_csv(KOIFILE))
 DATA.index = DATA['kepoi_name']

@@ -4,7 +4,7 @@ import os
 
 import distributions as dists
 
-STELLARFILE = 'keplerstellar.csv'
+STELLARFILE = '~/.keputils/keplerstellar.csv'
 
 DATA = pd.read_csv(STELLARFILE)
 DATA.index = DATA.kepid
