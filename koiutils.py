@@ -9,7 +9,12 @@ import os,sys,re,os.path
 
 import pandas as pd
 
+from .errors import MissingDatafileError,BadKOINameError
+
 KOIFILE = '~/.keputils/kois_cumulative.csv'
+
+if not os.path.exists(KOIFILE):
+    raise MissingDatafileError('Cumulative KOI data file not in proper location (run getdata.sh)')
 
 def koiname(k, star=False, koinum=False):
     """Returns KOI name in standard format.
