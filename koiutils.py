@@ -148,8 +148,14 @@ def KICmags(koi,bands=['g','r','i','z','j','h','k','kep']):
 
     Parameters
     ----------
+    koi : str, int, or float
+          KOI name
+    bands : band names (optional)
 
-    
+    Returns
+    -------
+    mags : dict
+           Magnitudes of KOI star in provided bands
     """
     mags = {b:DATA[koi]['koi_%smag' % b] for b in bands}
     mags['J'] = mags['j']
