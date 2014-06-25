@@ -11,11 +11,6 @@ import pandas as pd
 
 from .errors import MissingDatafileError,BadKOINameError
 
-KOIFILE = '~/.keputils/kois_cumulative.csv'
-
-if not os.path.exists(KOIFILE):
-    raise MissingDatafileError('Cumulative KOI data file not in proper location (run getdata.sh)')
-
 def koiname(k, star=False, koinum=False):
     """Returns KOI name in standard format.
 
@@ -92,19 +87,26 @@ class KOI_DataFrame(pd.DataFrame):
 KOIFILE = os.path.expanduser('~/.keputils/kois_cumulative.csv')
 H5FILE = os.path.expanduser('~/.keputils/keptables.h5')
 
-def write_hdf(filename=H5FILE,csvfile=KOIFILE):
-    print('loading stellar data from .csv file (should just happen once)')
-    DATA = pd.read_csv(csvfile)
-    DATA.index = DATA.kepid
-    DATA.to_hdf(filename,'cumulative')
+if not os.path.exists(KOIFILE):
+    raise MissingDatafileError('Cumulative KOI data file not in proper location (run getdata.sh)')
 
+
+def _write_hdf():
+    """
+    Should only run once: reads data from .csv file and writes to .h5.
+    """
+    
+    print('loading stellar data from .csv file (should just happen once)')
+    DATA = pd.read_csv(KOIFILE)
+    DATA.index = DATA.kepid
+    DATA.to_hdf(H5FILE,'kois_cumulative')
 
 
 try:
-    DATA = KOI_DataFrame(pd.read_hdf(H5FILE,'cumulative'))
+    DATA = KOI_DataFrame(pd.read_hdf(H5FILE,'kois_cumulative'))
 except:
-    write_hdf()
-    DATA = KOI_DataFrame(pd.read_hdf(H5FILE,'cumulative'))
+    _write_hdf()
+    DATA = KOI_DataFrame(pd.read_hdf(H5FILE,'kois_cumulative'))
 
 oldg,oldr,oldi,oldz = (DATA['koi_gmag'].copy(),
                        DATA['koi_rmag'].copy(),
@@ -125,9 +127,27 @@ DATA['koi_imag_orig'] = oldi
 DATA['koi_zmag_orig'] = oldz
 
 def radec(koi):
+    """
+    Returns the ra and dec of a given KOI.
+
+    Parameters
+    ----------
+    koi : str, int, or float
+          KOI name
+
+    Returns
+    -------
+    ra,dec : float [decimal degrees]
+    """
+    
     return DATA[koi]['ra'],DATA[koi]['dec']
 
 def KICmags(koi,bands=['g','r','i','z','j','h','k','kep']):
+    """
+    Returns the apparent magnitudes of given koi in given bands
+
+    Par
+    """
     mags = {b:DATA[koi]['koi_%smag' % b] for b in bands}
     mags['J'] = mags['j']
     mags['Ks'] = mags['k']
@@ -139,4 +159,6 @@ def KICmags(koi,bands=['g','r','i','z','j','h','k','kep']):
 def KICmag(koi,band):
     mags = KICmags(koi)
     return mags[band]
+
+
 
