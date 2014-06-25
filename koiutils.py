@@ -146,7 +146,10 @@ def KICmags(koi,bands=['g','r','i','z','j','h','k','kep']):
     """
     Returns the apparent magnitudes of given koi in given bands
 
-    Par
+    Parameters
+    ----------
+
+    
     """
     mags = {b:DATA[koi]['koi_%smag' % b] for b in bands}
     mags['J'] = mags['j']
