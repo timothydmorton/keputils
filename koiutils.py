@@ -144,7 +144,7 @@ def radec(koi):
 
 def KICmags(koi,bands=['g','r','i','z','j','h','k','kep']):
     """
-    Returns the apparent magnitudes of given koi in given bands
+    Returns the apparent magnitudes of given KOI star in given bands
 
     Parameters
     ----------
@@ -166,8 +166,10 @@ def KICmags(koi,bands=['g','r','i','z','j','h','k','kep']):
     return mags
 
 def KICmag(koi,band):
-    mags = KICmags(koi)
-    return mags[band]
+    """
+    Returns the apparent magnitude of given KOI star in given band.  returns KICmags(koi)[band]
+    """
+    return KICmags(koi)[band]
 
 
 

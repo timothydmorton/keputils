@@ -9,7 +9,7 @@ import numpy as np
 import os,os.path
 
 from .errors import MissingDatafileError
-import .koiutils as ku
+from . import koiutils as ku
 
 STELLARFILE = os.path.expanduser('~/.keputils/keplerstellar.csv')
 H5FILE = os.path.expanduser('~/.keputils/keptables.h5')
