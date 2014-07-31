@@ -98,7 +98,7 @@ def _write_hdf():
     
     print('loading stellar data from .csv file (should just happen once)')
     DATA = pd.read_csv(KOIFILE)
-    DATA.index = DATA.kepid
+    DATA.index = DATA['kepoi_name']
     DATA.to_hdf(H5FILE,'kois_cumulative')
 
 
