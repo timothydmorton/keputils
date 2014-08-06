@@ -1,4 +1,8 @@
-__Basic module for interaction with KOI and Kepler-stellar tables.__
+keputils
+---
+
+Basic module for interaction with KOI and Kepler-stellar tables.
+
 
 **Installation**
 
