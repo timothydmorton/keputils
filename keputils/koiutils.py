@@ -15,7 +15,11 @@ KOIFILE = os.path.expanduser('~/.keputils/kois_cumulative.csv')
 H5FILE = os.path.expanduser('~/.keputils/keptables.h5')
 
 def _download_koitable():
+    """Downloads cumulative KOI table from Exoplanet Archive and saves it to ~/.keputils
+    """
     import urllib2
+    if not os.path.exists(os.path.expanduser('~/.keputils')):
+        os.makedirs(os.path.expanduser('~/.keputils'))
     print('Downloading cumulative KOI table and saving to ~/.keputils/kois_cumulative.csv...')
     url = 'http://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=cumulative&select=*'
     u = urllib2.open(url)

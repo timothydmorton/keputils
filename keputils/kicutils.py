@@ -14,7 +14,11 @@ STELLARFILE = os.path.expanduser('~/.keputils/keplerstellar.csv')
 H5FILE = os.path.expanduser('~/.keputils/keptables.h5')
 
 def _download_stellartable():
+    """Downloads Kepler stellar table from Exoplanet Archive and saves it to ~/.keputils
+    """
     import urllib2
+    if not os.path.exists(os.path.expanduser('~/.keputils')):
+        os.makedirs(os.path.expanduser('~/.keputils'))
     print('Downloading Kepler stellar table and saving to ~/.keputils/keplerstellar.csv...')
     url = 'http://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=keplerstellar&select=*'
     u = urllib2.open(url)
@@ -28,7 +32,7 @@ if not os.path.exists(STELLARFILE):
 def _write_hdf():
     """Loads stellar data from .csv file and then rewrites to .h5 file
 
-    Should automaticall run just once the first time the module is imported.
+    Should automatically run just once the first time the module is imported.
     """
     print('loading stellar data from .csv file (should just happen once)')
     DATA = pd.read_csv(STELLARFILE)
