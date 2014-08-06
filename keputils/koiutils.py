@@ -9,7 +9,7 @@ import os,sys,re,os.path
 
 import pandas as pd
 
-from .errors import MissingDatafileError,BadKOINameError
+from .errors import BadKOINameError
 
 KOIFILE = os.path.expanduser('~/.keputils/kois_cumulative.csv')
 H5FILE = os.path.expanduser('~/.keputils/keptables.h5')
@@ -22,7 +22,7 @@ def _download_koitable():
         os.makedirs(os.path.expanduser('~/.keputils'))
     print('Downloading cumulative KOI table and saving to ~/.keputils/kois_cumulative.csv...')
     url = 'http://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=cumulative&select=*'
-    u = urllib2.open(url)
+    u = urllib2.urlopen(url)
     f = open(KOIFILE,'w')
     f.write(u.read())
     f.close()
@@ -41,6 +41,8 @@ def _write_hdf():
     DATA.to_hdf(H5FILE,'kois_cumulative')
 
 def update_data():
+    """Run this to get the latest cumualtive KOI table.
+    """
     _download_koitable()
     _write_hdf()
 

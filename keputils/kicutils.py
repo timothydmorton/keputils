@@ -21,7 +21,7 @@ def _download_stellartable():
         os.makedirs(os.path.expanduser('~/.keputils'))
     print('Downloading Kepler stellar table and saving to ~/.keputils/keplerstellar.csv...')
     url = 'http://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=keplerstellar&select=*'
-    u = urllib2.open(url)
+    u = urllib2.urlopen(url)
     f = open(STELLARFILE,'w')
     f.write(u.read())
     f.close()
@@ -47,6 +47,8 @@ except:
     DATA = pd.read_hdf(H5FILE,'keplerstellar')
 
 def update_data():
+    """Run this to get the latest Kepler stellar data.
+    """
     _download_stellartable()
     _write_hdf()
     
