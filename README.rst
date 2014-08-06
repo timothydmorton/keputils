@@ -10,7 +10,7 @@ Basic module for interaction with KOI and Kepler-stellar tables.
 
    pip install keputils
 
-Installing will also install `pandas`, `plotutils`, and `simpledist` modules, if not already installed.
+Installing will also install ``pandas``, `plotutils`, and `simpledist` modules, if not already installed.
 
 The first time you import `keputils.koiutils`, python will download the current cumulative
 KOI table in .csv form from the `NASA Exoplanet Archive <http://exoplanetarchive.ipac.caltech.edu/>`_,
