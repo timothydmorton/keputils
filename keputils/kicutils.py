@@ -8,14 +8,22 @@ import pandas as pd
 import numpy as np
 import os,os.path
 
-from .errors import MissingDatafileError
 from . import koiutils as ku
 
 STELLARFILE = os.path.expanduser('~/.keputils/keplerstellar.csv')
 H5FILE = os.path.expanduser('~/.keputils/keptables.h5')
 
+def _download_stellartable():
+    import urllib2
+    print('Downloading Kepler stellar table and saving to ~/.keputils/keplerstellar.csv...')
+    url = 'http://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=keplerstellar&select=*'
+    u = urllib2.open(url)
+    f = open(STELLARFILE,'w')
+    f.write(u.read())
+    f.close()
+
 if not os.path.exists(STELLARFILE):
-    raise MissingDatafileError('Kepler stellar data file not in proper location')
+    _download_stellartable()
 
 def _write_hdf():
     """Loads stellar data from .csv file and then rewrites to .h5 file
@@ -34,6 +42,10 @@ except:
     _write_hdf()
     DATA = pd.read_hdf(H5FILE,'keplerstellar')
 
+def update_data():
+    _download_stellartable()
+    _write_hdf()
+    
 def get_property(name,*args):
     """Convenience function to quickly retrieve any stellar property/properties for a given KepID/KOI numbers
 

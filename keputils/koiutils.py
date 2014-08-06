@@ -11,6 +11,35 @@ import pandas as pd
 
 from .errors import MissingDatafileError,BadKOINameError
 
+KOIFILE = os.path.expanduser('~/.keputils/kois_cumulative.csv')
+H5FILE = os.path.expanduser('~/.keputils/keptables.h5')
+
+def _download_koitable():
+    import urllib2
+    print('Downloading cumulative KOI table and saving to ~/.keputils/kois_cumulative.csv...')
+    url = 'http://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=cumulative&select=*'
+    u = urllib2.open(url)
+    f = open(KOIFILE,'w')
+    f.write(u.read())
+    f.close()
+
+if not os.path.exists(KOIFILE):
+    _download_koitable()
+    
+def _write_hdf():
+    """
+    Should only run once: reads data from .csv file and writes to .h5.
+    """
+    
+    print('loading stellar data from .csv file (should just happen once)')
+    DATA = pd.read_csv(KOIFILE)
+    DATA.index = DATA['kepoi_name']
+    DATA.to_hdf(H5FILE,'kois_cumulative')
+
+def update_data():
+    _download_koitable()
+    _write_hdf()
+
 def koiname(k, star=False, koinum=False):
     """Returns KOI name in standard format.
 
@@ -83,24 +112,6 @@ class KOI_DataFrame(pd.DataFrame):
                     return super(KOI_DataFrame,self).__getitem__(item)
         except:
             return super(KOI_DataFrame,self).__getitem__(item)
-
-KOIFILE = os.path.expanduser('~/.keputils/kois_cumulative.csv')
-H5FILE = os.path.expanduser('~/.keputils/keptables.h5')
-
-if not os.path.exists(KOIFILE):
-    raise MissingDatafileError('Cumulative KOI data file not in proper location (run getdata.sh)')
-
-
-def _write_hdf():
-    """
-    Should only run once: reads data from .csv file and writes to .h5.
-    """
-    
-    print('loading stellar data from .csv file (should just happen once)')
-    DATA = pd.read_csv(KOIFILE)
-    DATA.index = DATA['kepoi_name']
-    DATA.to_hdf(H5FILE,'kois_cumulative')
-
 
 try:
     DATA = KOI_DataFrame(pd.read_hdf(H5FILE,'kois_cumulative'))
