@@ -1,3 +1,4 @@
+__author__ = 'Timothy D. Morton <tim.morton@gmail.com>'
 """
 A module for convenient access to Kepler stellar table
 
@@ -7,6 +8,7 @@ from __future__ import division,print_function
 import pandas as pd
 import numpy as np
 import os,os.path
+
 
 from . import koiutils as ku
 
@@ -81,5 +83,4 @@ def get_property(name,*args):
             return DATA.ix[name,args]
         else:
             return DATA.ix[name,list(args)]
-
 

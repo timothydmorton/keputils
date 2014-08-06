@@ -1,7 +1,6 @@
+__author__ = 'Timothy D. Morton <tim.morton@gmail.com>'
 """
-Module for convenient access to kepler table data.
-
-
+Module for convenient access to kepler cumulative KOI table data.
 """
 from __future__ import division,print_function
 import numpy as np
@@ -187,6 +186,4 @@ def KICmag(koi,band):
     Returns the apparent magnitude of given KOI star in given band.  returns KICmags(koi)[band]
     """
     return KICmags(koi)[band]
-
-
 
