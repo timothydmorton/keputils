@@ -1,5 +1,5 @@
 keputils
----
+=====
 
 Basic module for interaction with KOI and Kepler-stellar tables.
 
