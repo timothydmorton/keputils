@@ -1,8 +1,8 @@
+from __future__ import division,print_function
 __author__ = 'Timothy D. Morton <tim.morton@gmail.com>'
 """
 Module for convenient access to kepler cumulative KOI table data.
 """
-from __future__ import division,print_function
 import numpy as np
 import os,sys,re,os.path
 
