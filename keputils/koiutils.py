@@ -187,8 +187,11 @@ def KICmag(koi,band):
     """
     return KICmags(koi)[band]
 
+def kepid(koi):
+    return DATA.ix[koiname(koi),'kepid']
+
 def get_property(koi,prop):
-    return DATAFRAME.ix[koiname(koi),prop]
+    return DATA.ix[koiname(koi),prop]
 
 def get_ncands(koi):
-    return DATAFRAME.ix[koiname(koi),'koi_count']
+    return DATA.ix[koiname(koi),'koi_count']
