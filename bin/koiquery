@@ -7,7 +7,7 @@ from keputils import koiutils as ku
 def main():
     parser = argparse.ArgumentParser(description='print info for given KOI')
     
-    parser.add_argument(koi)
+    parser.add_argument('koi')
 
     args = parser.parse_args()
 

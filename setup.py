@@ -13,7 +13,7 @@ setup(name = "keputils",
     url = "https://github.com/timothydmorton/keputils",
     packages = ['keputils'],
     scripts = ['bin/koiquery'],
-    entry_points = {'console_scripts' : ['koiquery = koiquery:main']},
+    #entry_points = {'console_scripts' : ['koiquery = koiquery:main']},
     classifiers=[
       'Development Status :: 3 - Alpha',
       'Intended Audience :: Science/Research',
