@@ -20,6 +20,6 @@ setup(name = "keputils",
       'Topic :: Scientific/Engineering',
       'Topic :: Scientific/Engineering :: Astronomy'
       ],
-    install_requires=['pandas>=0.14','simpledist'],
+    install_requires=['pandas>=0.13','simpledist'],
     zip_safe=False
 ) 
