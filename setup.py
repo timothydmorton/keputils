@@ -12,6 +12,8 @@ setup(name = "keputils",
     author_email = "tim.morton@gmail.com",
     url = "https://github.com/timothydmorton/keputils",
     packages = ['keputils'],
+    scripts = ['bin/koiquery'],
+    entry_points = {'console_scripts' : ['koiquery = koiquery:main']},
     classifiers=[
       'Development Status :: 3 - Alpha',
       'Intended Audience :: Science/Research',
