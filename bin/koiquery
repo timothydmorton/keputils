@@ -1,0 +1,18 @@
+#!/usr/bin/env python
+from __future__ import print_function
+
+import argparse
+from keputils import koiutils as ku
+
+def main():
+    parser = argparse.ArgumentParser(description='print info for given KOI')
+    
+    parser.add_argument(koi)
+
+    args = parser.parse_args()
+
+    print(ku.DATA.ix[ku.koiname(args.koi)])
+
+
+if __name__=='__main__':
+    main()
