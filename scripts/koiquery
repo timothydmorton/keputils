@@ -2,17 +2,36 @@
 from __future__ import print_function
 
 import argparse
+import numpy as np
+import pandas as pd
 from keputils import koiutils as ku
 
+
 def main():
-    parser = argparse.ArgumentParser(description='print info for given KOI')
+    parser = argparse.ArgumentParser(description='prints list of KOIs satisfying given query')
     
-    parser.add_argument('koi')
+    parser.add_argument('infile',help='super-list of KOIs to query')
+    parser.add_argument('-Q','--query',default='',help='query')
+    parser.add_argument('--stars',action='store_true')
 
     args = parser.parse_args()
 
-    print(ku.DATA.ix[ku.koiname(args.koi)])
+    if args.infile != 'all':
+        kois = pd.Series(np.loadtxt(args.infile[0],dtype=str)).apply(ku.koiname)
+        df = ku.DATA.ix[kois]
+    else:
+        df = ku.DATA
 
+    subdf = df.query(args.query)
+
+    kois = subdf['kepoi_name']
+    if args.stars:
+        kois = kois.apply(ku.koistar)
+    kois = np.sort(kois.unique())
+    
+
+    for k in kois:
+        print(k)
 
 if __name__=='__main__':
     main()
