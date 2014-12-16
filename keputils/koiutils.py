@@ -66,6 +66,9 @@ def koiname(k, star=False, koinum=False):
         m = re.search('^(\d+\.\d+)$',k)
         if m:
             name = 'K%08.2f' % (float(m.group(1)))
+        m = re.search('(K\d\d\d\d\d)',k)
+        if m:
+            name = '{}.01'.format(m.group(1))
         m = re.search('(K\d\d\d\d\d[A-Z]?$)',k)
         if m:
             name = '%s.01' % m.group(1)
