@@ -40,6 +40,9 @@ def _write_hdf():
     DATA = pd.read_csv(STELLARFILE)
     DATA.index = DATA.kepid
     DATA = DATA[~np.isnan(DATA['mass'])]
+    store = pd.HDFStore(H5FILE)
+    del store['keplerstellar']
+    store.close()
     DATA.to_hdf(H5FILE,'keplerstellar')
 
 try:
