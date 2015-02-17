@@ -8,6 +8,11 @@ import os,sys,re,os.path
 
 import pandas as pd
 
+try:
+    from simpledist import distributions as dists
+except:
+    dists = None
+
 from .errors import BadKOINameError
 
 KOIFILE = os.path.expanduser('~/.keputils/kois_cumulative.csv')
@@ -198,3 +203,9 @@ def get_property(koi,prop):
 
 def get_ncands(koi):
     return DATA.ix[koiname(koi),'koi_count']
+
+def get_distribution(koi, prop):
+    val = DATA.ix[koi, prop]
+    u1 = DATA.ix[koi, prop+'_err1'] #upper error bar (positive)
+    u2 = DATA.ix[koi, prop+'_err2'] #upper error bar (negative)
+    return dists.fit_doublegauss(val, -u2, u1)
