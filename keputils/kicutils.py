@@ -12,7 +12,7 @@ import os,os.path
 
 from . import koiutils as ku
 
-STELLARFILE = os.path.expanduser('~/.keputils/keplerstellar.csv')
+STELLARFILE = os.path.expanduser('~/.keputils/keplerstellar_q17.csv')
 H5FILE = os.path.expanduser('~/.keputils/keptables.h5')
 
 def _download_stellartable():
@@ -21,8 +21,8 @@ def _download_stellartable():
     import urllib2
     if not os.path.exists(os.path.expanduser('~/.keputils')):
         os.makedirs(os.path.expanduser('~/.keputils'))
-    print('Downloading Kepler stellar table and saving to ~/.keputils/keplerstellar.csv...')
-    url = 'http://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=keplerstellar&select=*'
+    print('Downloading Kepler stellar table and saving to ~/.keputils/keplerstellar_q17.csv...')
+    url = 'http://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=q1_q17_dr24_stellar&select=*'
     u = urllib2.urlopen(url)
     f = open(STELLARFILE,'w')
     f.write(u.read())
@@ -41,15 +41,18 @@ def _write_hdf():
     DATA.index = DATA.kepid
     DATA = DATA[~np.isnan(DATA['mass'])]
     store = pd.HDFStore(H5FILE)
-    del store['keplerstellar']
+    try:
+        del store['keplerstellar_q17']
+    except KeyError:
+        pass
     store.close()
-    DATA.to_hdf(H5FILE,'keplerstellar')
+    DATA.to_hdf(H5FILE,'keplerstellar_q17')
 
 try:
-    DATA = pd.read_hdf(H5FILE,'keplerstellar')
+    DATA = pd.read_hdf(H5FILE,'keplerstellar_q17')
 except:
     _write_hdf()
-    DATA = pd.read_hdf(H5FILE,'keplerstellar')
+    DATA = pd.read_hdf(H5FILE,'keplerstellar_q17')
 
 def update_data():
     """Run this to get the latest Kepler stellar data.
