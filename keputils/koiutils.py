@@ -42,6 +42,8 @@ def get_catalog(name, basepath=os.path.expanduser('~/.keputils')):
 
 ######
 
+DR24 = get_catalog('q1_q17_dr24_koi')
+
 def _download_koitable():
     """Downloads cumulative KOI table from Exoplanet Archive and saves it to ~/.keputils
     """
