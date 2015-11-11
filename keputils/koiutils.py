@@ -42,8 +42,6 @@ def get_catalog(name, basepath=os.path.expanduser('~/.keputils')):
 
 ######
 
-DR24 = get_catalog('q1_q17_dr24_koi')
-
 def _download_koitable():
     """Downloads cumulative KOI table from Exoplanet Archive and saves it to ~/.keputils
     """
@@ -152,29 +150,37 @@ class KOI_DataFrame(pd.DataFrame):
         except:
             return super(KOI_DataFrame,self).__getitem__(item)
 
+def fix_kicmags(df):
+    oldg,oldr,oldi,oldz = (df['koi_gmag'].copy(),
+                           df['koi_rmag'].copy(),
+                           df['koi_imag'].copy(),
+                           df['koi_zmag'].copy())
+    newg = oldg + 0.0921*(oldg - oldr) - 0.0985
+    newr = oldr + 0.0548*(oldr - oldi) - 0.0383
+    newi = oldi + 0.0696*(oldr - oldi) - 0.0583
+    newz = oldz + 0.1587*(oldi - oldz) - 0.0597
+
+    df['koi_gmag'] = newg
+    df['koi_rmag'] = newr
+    df['koi_imag'] = newi
+    df['koi_zmag'] = newz
+    df['koi_gmag_orig'] = oldg
+    df['koi_rmag_orig'] = oldr
+    df['koi_imag_orig'] = oldi
+    df['koi_zmag_orig'] = oldz
+
 try:
     DATA = KOI_DataFrame(pd.read_hdf(H5FILE,'kois_cumulative'))
 except:
     _write_hdf()
     DATA = KOI_DataFrame(pd.read_hdf(H5FILE,'kois_cumulative'))
 
-oldg,oldr,oldi,oldz = (DATA['koi_gmag'].copy(),
-                       DATA['koi_rmag'].copy(),
-                       DATA['koi_imag'].copy(),
-                       DATA['koi_zmag'].copy())
-newg = oldg + 0.0921*(oldg - oldr) - 0.0985
-newr = oldr + 0.0548*(oldr - oldi) - 0.0383
-newi = oldi + 0.0696*(oldr - oldi) - 0.0583
-newz = oldz + 0.1587*(oldi - oldz) - 0.0597
+fix_kicmags(DATA)
 
-DATA['koi_gmag'] = newg
-DATA['koi_rmag'] = newr
-DATA['koi_imag'] = newi
-DATA['koi_zmag'] = newz
-DATA['koi_gmag_orig'] = oldg
-DATA['koi_rmag_orig'] = oldr
-DATA['koi_imag_orig'] = oldi
-DATA['koi_zmag_orig'] = oldz
+DR24 = KOI_DataFrame(get_catalog('q1_q17_dr24_koi'))
+DR24.index = DR24.kepoi_name
+fix_kicmags(DR24)
+
 
 def radec(koi):
     """
