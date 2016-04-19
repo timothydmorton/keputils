@@ -2,7 +2,7 @@ from setuptools import setup
 
 # Hackishly inject a constant into builtins to enable importing of the
 # package before the library is built.
-import sys
+import sys, os
 if sys.version_info[0] < 3:
     import __builtin__ as builtins
 else:
