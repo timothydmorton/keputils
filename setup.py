@@ -5,7 +5,7 @@ def readme():
         return f.read()
 
 setup(name = "keputils",
-    version = "0.1.7",
+    version = "0.2",
     description = "Basic module for interaction with KOI and Kepler-stellar tables.",
     long_description = readme(),
     author = "Timothy D. Morton",
