@@ -13,18 +13,19 @@ try:
 except:
     dists = None
 
+from .cfg import KEPUTILS
 from .errors import BadKOINameError
 from .utils import koiname, koistar, koistarnum
 
-KOIFILE = os.path.expanduser('~/.keputils/kois_cumulative.csv')
-H5FILE = os.path.expanduser('~/.keputils/keptables.h5')
+KOIFILE = os.path.join(KEPUTILS, 'kois_cumulative.csv')
+H5FILE = os.path.join(KEPUTILS, 'keptables.h5')
 
 
 #### from DFM #####
 import requests
 from cStringIO import StringIO
 
-def get_catalog(name, basepath=os.path.expanduser('~/.keputils')):
+def get_catalog(name, basepath=KEPUTILS):
     fn = os.path.join(basepath, "{0}.h5".format(name))
     if os.path.exists(fn):
         return pd.read_hdf(fn, name)
@@ -44,12 +45,12 @@ def get_catalog(name, basepath=os.path.expanduser('~/.keputils')):
 ######
 
 def _download_koitable():
-    """Downloads cumulative KOI table from Exoplanet Archive and saves it to ~/.keputils
+    """Downloads cumulative KOI table from Exoplanet Archive and saves it to $KEPUTILS
     """
     import urllib2
-    if not os.path.exists(os.path.expanduser('~/.keputils')):
-        os.makedirs(os.path.expanduser('~/.keputils'))
-    print('Downloading cumulative KOI table and saving to ~/.keputils/kois_cumulative.csv...')
+    if not os.path.exists(KEPUTILS):
+        os.makedirs(KEPUTILS)
+    print('Downloading cumulative KOI table and saving to {}/kois_cumulative.csv...'.format(KEPUTILS))
     url = 'http://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=cumulative&select=*'
     u = urllib2.urlopen(url)
     f = open(KOIFILE,'w')
