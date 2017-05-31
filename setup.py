@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 def readme():
     with open('README.rst') as f:
@@ -11,7 +11,7 @@ setup(name = "keputils",
     author = "Timothy D. Morton",
     author_email = "tim.morton@gmail.com",
     url = "https://github.com/timothydmorton/keputils",
-    packages = ['keputils'],
+    packages = find_packages(),
     scripts = ['scripts/koiquery'],
     #entry_points = {'console_scripts' : ['koiquery = koiquery:main']},
     classifiers=[
