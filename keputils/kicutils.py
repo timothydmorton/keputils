@@ -13,53 +13,12 @@ import os,os.path
 from . import koiutils as ku
 from .cfg import KEPUTILS
 
+from .utils import get_catalog
+
 STELLARFILE = os.path.join(KEPUTILS, 'keplerstellar_q17.csv')
 H5FILE = os.path.join(KEPUTILS, 'keptables.h5')
 
-def _download_stellartable():
-    """Downloads Kepler stellar table from Exoplanet Archive and saves it to $KEPUTILS
-    """
-    import urllib2
-    if not os.path.exists(KEPUTILS):
-        os.makedirs(KEPUTILS)
-    print('Downloading Kepler stellar table and saving to {}/keplerstellar_q17.csv...'.format(KEPUTILS))
-    url = 'http://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=q1_q17_dr24_stellar&select=*'
-    u = urllib2.urlopen(url)
-    f = open(STELLARFILE,'w')
-    f.write(u.read())
-    f.close()
-
-if not os.path.exists(STELLARFILE):
-    _download_stellartable()
-
-def _write_hdf():
-    """Loads stellar data from .csv file and then rewrites to .h5 file
-
-    Should automatically run just once the first time the module is imported.
-    """
-    print('loading stellar data from .csv file (should just happen once)')
-    DATA = pd.read_csv(STELLARFILE)
-    DATA.index = DATA.kepid
-    DATA = DATA[~np.isnan(DATA['mass'])]
-    store = pd.HDFStore(H5FILE)
-    try:
-        del store['keplerstellar_q17']
-    except KeyError:
-        pass
-    store.close()
-    DATA.to_hdf(H5FILE,'keplerstellar_q17')
-
-try:
-    DATA = pd.read_hdf(H5FILE,'keplerstellar_q17')
-except:
-    _write_hdf()
-    DATA = pd.read_hdf(H5FILE,'keplerstellar_q17')
-
-def update_data():
-    """Run this to get the latest Kepler stellar data.
-    """
-    _download_stellartable()
-    _write_hdf()
+DATA = get_catalog('q1_q17_dr25_stellar')
     
 def get_property(name,*args):
     """Convenience function to quickly retrieve any stellar property/properties for a given KepID/KOI numbers

@@ -105,6 +105,10 @@ DR24 = KOI_DataFrame(get_catalog('q1_q17_dr24_koi'))
 DR24.index = DR24.kepoi_name
 fix_kicmags(DR24)
 
+DR25 = KOI_DataFrame(get_catalog('q1_q17_dr25_koi'))
+DR25.index = DR25.kepoi_name
+fix_kicmags(DR25)
+
 
 def radec(koi):
     """
