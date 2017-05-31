@@ -1,7 +1,7 @@
 import numpy as np
 import re
 
-from .cfg import KOIUTILS
+from .cfg import KEPUTILS
 
 #### from DFM #####
 import requests
