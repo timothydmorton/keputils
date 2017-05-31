@@ -1,6 +1,8 @@
 import numpy as np
 import re
 
+from .cfg import KOIUTILS
+
 #### from DFM #####
 import requests
 from cStringIO import StringIO
