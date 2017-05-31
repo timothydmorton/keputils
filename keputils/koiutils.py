@@ -15,34 +15,11 @@ except:
 
 from .cfg import KEPUTILS
 from .errors import BadKOINameError
-from .utils import koiname, koistar, koistarnum
+from .utils import koiname, koistar, koistarnum, get_catalog
 
 KOIFILE = os.path.join(KEPUTILS, 'kois_cumulative.csv')
 H5FILE = os.path.join(KEPUTILS, 'keptables.h5')
 
-
-#### from DFM #####
-import requests
-from cStringIO import StringIO
-
-def get_catalog(name, basepath=KEPUTILS):
-    fn = os.path.join(basepath, "{0}.h5".format(name))
-    if os.path.exists(fn):
-        return pd.read_hdf(fn, name)
-    if not os.path.exists(basepath):
-        os.makedirs(basepath)
-    print("Downloading {0}...".format(name))
-    url = ("http://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/"
-           "nph-nstedAPI?table={0}&select=*").format(name)
-    r = requests.get(url)
-    if r.status_code != requests.codes.ok:
-        r.raise_for_status()
-    fh = StringIO(r.content)
-    df = pd.read_csv(fh)
-    df.to_hdf(fn, name, format="t")
-    return df
-
-######
 
 def _download_koitable():
     """Downloads cumulative KOI table from Exoplanet Archive and saves it to $KEPUTILS
