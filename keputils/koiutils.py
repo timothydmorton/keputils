@@ -124,7 +124,10 @@ def radec(koi):
     ra,dec : float [decimal degrees]
     """
     
-    return DATA[koi]['ra'],DATA[koi]['dec']
+    try:
+        return DATA[koi]['ra'], DATA[koi]['dec']
+    except KeyError:
+        return DR25[koi]['ra'], DR25[koi]['dec']
 
 def KICmags(koi,bands=['g','r','i','z','j','h','k','kep']):
     """
