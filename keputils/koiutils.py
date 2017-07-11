@@ -65,8 +65,8 @@ class KOI_DataFrame(pd.DataFrame):
             return super(KOI_DataFrame,self).ix[koiname(item)]
         except KeyError:
             try:
-                return super(KOI_DataFrame,self).ix[koiname(item,koinum=True)]
-            except KeyError:
+                return super(KOI_DataFrame,self).ix[koiname(item, koinum=True)]
+            except (KeyError, TypeError):
                 try:
                     return super(KOI_DataFrame,self).ix[koiname(item,star=True)]
                 except:
