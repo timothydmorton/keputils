@@ -19,7 +19,8 @@ STELLARFILE = os.path.join(KEPUTILS, 'keplerstellar_q17.csv')
 H5FILE = os.path.join(KEPUTILS, 'keptables.h5')
 
 DATA = get_catalog('q1_q17_dr25_stellar')
-    
+DATA.index = DATA.kepid
+
 def get_property(name,*args):
     """Convenience function to quickly retrieve any stellar property/properties for a given KepID/KOI numbers
 
