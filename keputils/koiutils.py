@@ -129,7 +129,7 @@ def radec(koi):
     except KeyError:
         return DR25[koi]['ra'], DR25[koi]['dec']
 
-def KICmags(koi,bands=['g','r','i','z','j','h','k','kep']):
+def KICmags(koi,bands=['g','r','i','z','j','h','k','kep'], dr25=True):
     """
     Returns the apparent magnitudes of given KOI star in given bands
 
@@ -144,7 +144,11 @@ def KICmags(koi,bands=['g','r','i','z','j','h','k','kep']):
     mags : dict
            Magnitudes of KOI star in provided bands
     """
-    mags = {b:DATA[koi]['koi_%smag' % b] for b in bands}
+    if dr25:
+        mags = {b:DR25[koi]['koi_%smag' % b] for b in bands}
+    else:    
+        mags = {b:DATA[koi]['koi_%smag' % b] for b in bands}
+
     mags['J'] = mags['j']
     mags['Ks'] = mags['k']
     mags['K'] = mags['k']
@@ -159,13 +163,22 @@ def KICmag(koi,band):
     return KICmags(koi)[band]
 
 def kepid(koi):
-    return DATA.ix[koiname(koi),'kepid']
+    try:
+        return DR25.ix[koiname(koi), 'kepid']
+    except KeyError:
+        return DATA.ix[koiname(koi),'kepid']
 
 def get_property(koi,prop):
-    return DATA.ix[koiname(koi),prop]
+    try:
+        return DR25.ix[koiname(koi), prop]
+    except KeyError:
+        return DATA.ix[koiname(koi),prop]
 
 def get_ncands(koi):
-    return DATA.ix[koiname(koi),'koi_count']
+    try:
+        return DR25.ix[koiname(koi), 'koi_count']
+    except KeyError:
+        return DATA.ix[koiname(koi),'koi_count']
 
 # def get_distribution(koi, prop):
 #     val = DATA.ix[koi, prop]
